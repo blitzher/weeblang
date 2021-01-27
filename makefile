@@ -2,18 +2,22 @@
 CC = gcc
 CFLAGS = -ansi -pedantic -Wall
 COMP = $(CC) $(CFLAGS)
-LIB = include
-TEMP = lib
+
+INC = include
+LIB = lib
+LOG = logs
+
 BIN = bin
 SRC = src
 
+
 # all object files, in the compiled 
 # temporary directory
-OBJS = $(TEMP)/utility.o
+OBJS = $(LIB)/utility.o
 
 $(BIN)/%.exe : $(SRC)/%.c $(OBJS)
 		
-	@mkdir -p $(TEMP) $(BIN)
+	@mkdir -p $(LIB) $(BIN)
 	@echo Compiling $<...
 
 	@$(COMP) $(OBJS) $< -o $@
@@ -21,8 +25,8 @@ $(BIN)/%.exe : $(SRC)/%.c $(OBJS)
 	@echo Compilation successful
 
 # general rule for compiling any library files
-$(TEMP)/%.o : $(LIB)/%.c $(LIB)/%.h
-	@mkdir -p $(TEMP) $(BIN)
+$(LIB)/%.o : $(INC)/%.c $(INC)/%.h
+	@mkdir -p $(LIB) $(BIN)
 	@echo Compiling $<...
 	@$(COMP) -c $< -o $@
 
@@ -37,12 +41,9 @@ debug : $(SRC)/main.c $(OBJS)
 
 # remove all items in temporary folders
 clear :
-	@rm -rf $(TEMP)
+	@rm -rf $(LIB)
 	@rm -rf $(BIN)
-	@rm -f *.exe
-	@rm -f *.o
-	@rm -f .output
-	@rm -f .visuals
+	@rm -rf $(LOG)
 	@echo cleared temporary files
 
 # clear, then make
@@ -50,5 +51,6 @@ clean : clear $(BIN)/main.exe
 
 # compile and run main
 run : $(BIN)/main.exe
+	@mkdir -p $(LOG)
 	@./$(BIN)/main.exe
 	
