@@ -1,1 +1,2 @@
-# Small compiler for BLZLANG
+# Small compiler for weeblang
+
