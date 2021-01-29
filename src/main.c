@@ -2,26 +2,32 @@
 
 int main(int argc, char **argv)
 {
+    /* declare compile related variables */
+    lexer_t lexer;
+    token_t token;
+
     /* initalize debugging file  */
-    char log_name[80];
     char line[80];
-    FILE* test_file;
-    int i;
+    sprintf(line, "logs/debug-%d.log", (int)time(NULL) % 10000);
+    debug_file = fopen(line, "w");
 
-    sprintf(log_name, "logs/debug-%d.log", time(NULL) % 10000);
-    debug_file = fopen(log_name, "w");
-
-    fputs("Hello world!\n", debug_file);
+    fputs("== debugging information ==\n", debug_file);
     
-    test_file = fopen("tests/basic.txt", "r");
-    for (i = 0; i < 10; i++)
-    {
-        fscanf(test_file, "%s", line);
-        printf("%s\n", line);
+    if (argc < 2) {
+        printf("no source file supplied!");
     }
-    
-    fclose(test_file);
-    fclose(debug_file);
 
+    lexer = new_lexer(fopen(argv[1], "r"));
+
+
+    do {
+        token = lexer_next(&lexer);
+        print_token(token);
+    } while (token.type != eof_token);
+
+
+    fputs("Compiled succesfully\n", debug_file);
+
+    fclose(debug_file);
     return EXIT_SUCCESS;
 }

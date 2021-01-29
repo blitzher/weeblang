@@ -13,7 +13,9 @@ SRC = src
 
 # all object files, in the compiled 
 # temporary directory
-OBJS = $(LIB)/utility.o
+OBJS = $(LIB)/utility.o \
+	   $(LIB)/lexer.o \
+	   $(LIB)/syntax.o
 
 $(BIN)/%.exe : $(SRC)/%.c $(OBJS)
 		
@@ -52,5 +54,5 @@ clean : clear $(BIN)/main.exe
 # compile and run main
 run : $(BIN)/main.exe
 	@mkdir -p $(LOG)
-	@./$(BIN)/main.exe
+	@./$(BIN)/main.exe tests/basic.txt
 	

@@ -1,9 +1,13 @@
+#pragma once
+
 #include "./utility.h"
+
+#define test 1
 
 /* the struct for the lexer itself */
 typedef struct lexer
 {
-    char *start;
+    FILE* file;
     uint64_t current;
 
 } lexer_t;
@@ -18,9 +22,12 @@ typedef enum
     div_token,
     assign_token,
     define_token,
+    stdout_token,
     bad_token,
     eof_token
 } token_type_t;
+
+char* token_name_by_num(token_type_t);
 
 typedef struct token
 {
@@ -30,10 +37,9 @@ typedef struct token
 } token_t;
 
 /* initalise a new lexer on a string */
-lexer_t new_lexer(char *);
+lexer_t new_lexer(FILE *);
 
 /* get the next token */
 token_t lexer_next(lexer_t *);
 
-/* print a token */
-void print_token(token_t);
+void print_token(token_t token);

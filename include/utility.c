@@ -2,7 +2,7 @@
 #include "./utility.h"
 
 
-uint8_t char_to_int(char ch) {
+int8_t char_to_int(char ch) {
     if (ch - '0' < 10 && ch - '0' > -1) {
         return ch - '0';
     }
@@ -11,9 +11,8 @@ uint8_t char_to_int(char ch) {
     }
 }
 
-
 bool_t is_int(char ch) {
-    uint8_t inted = char_to_int(ch);
+    int8_t inted = char_to_int(ch);
     return inted > -1 && inted < 10;
 }
 
